@@ -4,6 +4,7 @@ import numpy as np
 import pydicom
 import threading
 import os
+from tqdm import tqdm
 from time import sleep
 
 """
