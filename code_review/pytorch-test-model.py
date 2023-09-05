@@ -27,6 +27,7 @@ class ResNet(nn.Module):
         self.base_model_out = nn.Sequential(*list(self.base_model.children())[:-2])
         
         # define classifier
+        # add dimension changes to this part 
         self.classifier = nn.Sequential(
             nn.Dropout2d(p=0.5),
             nn.Conv2d(512, num_classes, kernel_size=3),
@@ -214,3 +215,6 @@ metric_collection.to(device)
 
 epochs = 30
 train_model(epochs, train_loader, val_loader, test_loader, model, criterion, optimizer, metric_collection)
+
+
+
