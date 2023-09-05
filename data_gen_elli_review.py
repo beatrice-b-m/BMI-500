@@ -4,7 +4,7 @@ import cv2 as cv
 from tqdm import tqdm
 import pydicom
 from skimage.draw import ellipse
-
+# CODE REVIEW
 # In summary, the code seems well-structuredm and functional for its purpose.
 # My review advice would be the consideration of adding docstrings to the functions to explain their purpose, parameters, 
 # and return values. This is especially crucial for more complex functions.
@@ -20,7 +20,10 @@ def check_side(image):
         return 'R'
     else:
         print('Error: Laterality could not be determined!')
-        return 'E' # this may not be easy to understand,  Perhaps raising an exception or using logging would be more appropriate.
+    
+        return 'E' 
+        # CODE REVIEW
+        # this may not be easy to understand,  Perhaps raising an exception or using logging would be more appropriate.
 
 
 def extract_roi(roi: str):  # convert ROI string to list
@@ -30,17 +33,23 @@ def extract_roi(roi: str):  # convert ROI string to list
     for i in range(len(roi) // 4):
         roi_list.append(roi[4*i:4*i+4])
     return roi_list
-
-# This function name might be  bit general, I would kindly suggest specifying more such as 'save_image_with_mask'
+    
+# CODE REVIEW
+# This function name might be  bit general, 
+# I would kindly suggest specifying more such as 'save_image_with_mask'
 def save_scan(npy, img_dir, filename):
+    # CODE REVIEW
     # add more explanation about input data structure, what does npy mean here?
     # Save array
-     # might use os.path.join() for more reliability
+    # CODE REVIEW
+    # might use os.path.join() for more reliability
     np.save(os.path.join(img_dir,filename[:-4],'.npy'),npy)
    
 
 def get_mask(img, roi_list: list):
-    # straightforward and easy to read :) may can add error handling? just a thought 
+    # CODE REVIEW
+    # straightforward and easy to read :) 
+    # may can add error handling? just a thought 
     mask_shape = (img.shape[0], img.shape[1])
     mask = np.zeros(mask_shape, dtype=np.uint8)
     for roi in roi_list:
@@ -62,6 +71,7 @@ def get_mask(img, roi_list: list):
 
 def save_dataset(mode: str, image_rows: int = 1024, image_cols: int = 832, base_path: str = ''):
     if mode == 'train':
+        # CODE REVIEW
         # There are several hardcoded paths such as /home/careinfolab/unet_mammo/images/.... 
         # This isn't portable and won't work on another machine without changes. 
         # better to make these configurable via function parameters or configuration files.
@@ -75,6 +85,7 @@ def save_dataset(mode: str, image_rows: int = 1024, image_cols: int = 832, base_
         img_dir = '/home/careinfolab/unet_mammo/images/pos_norm_elli/val/'
 
     df = pd.read_csv(df_path)
+    # CODE REVIEW
     # could be made more efficient. 
     #i terrows() isn't the fastest way to iterate over a dataframe. 
     # Consider using apply or vectorized operations when possible
